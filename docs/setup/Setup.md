@@ -11,3 +11,10 @@ Project setup
 - Installed WSL2
 - Created GitHub repository
 - Created project structure
+  Include:
+
+Docker Desktop
+WSL2
+Ubuntu
+Hello World
+Verification
