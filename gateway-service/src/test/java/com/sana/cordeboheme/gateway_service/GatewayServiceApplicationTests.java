@@ -1,10 +1,10 @@
-package com.sana.cordeboheme.discovery_server;
+package com.sana.cordeboheme.gateway_service;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class DiscoveryServerApplicationTests {
+class GatewayServiceApplicationTests {
 
   @Test
   void contextLoads() {}
