@@ -7,6 +7,15 @@ spring:
 
   config:
     import: optional:configserver:http://localhost:8888
+  datasource:
+    url: jdbc:postgresql://localhost:5432/corde_boheme
+    username: postgres
+    password: Goldengates@2018
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    open-in-view: false
 
 eureka:
   client:
