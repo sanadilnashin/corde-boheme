@@ -1,7 +1,7 @@
 package com.sana.cordeboheme.product_service.mapper;
 
 import com.sana.cordeboheme.product_service.dto.request.createProductRequest;
-import com.sana.cordeboheme.product_service.dto.response.createProductResponse;
+import com.sana.cordeboheme.product_service.dto.response.ProductResponse;
 import com.sana.cordeboheme.product_service.entity.Product;
 
 public class ProductMapper {
@@ -15,8 +15,8 @@ public class ProductMapper {
         .build();
   }
 
-  createProductResponse toResponse(Product product) {
-    return new createProductResponse(
+  ProductResponse toResponse(Product product) {
+    return new ProductResponse(
         product.getId(),
         product.getName(),
         product.getDescription(),
