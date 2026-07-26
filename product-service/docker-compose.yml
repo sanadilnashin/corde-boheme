@@ -1,0 +1,24 @@
+version: '3.8'
+
+services:
+  product-db:
+    image: postgres:17
+    container_name: product-db
+    restart: always
+    environment:
+      POSTGRES_DB: product_db
+      POSTGRES_USER: product
+      POSTGRES_PASSWORD: product
+    ports:
+      - "5434:5432"
+    volumes:
+      - product_db_data:/var/lib/postgresql
+    networks:
+      - ecommerce-net
+
+volumes:
+  product_db_data:
+
+networks:
+  ecommerce-net:
+    external: true
