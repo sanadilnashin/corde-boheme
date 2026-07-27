@@ -4,10 +4,12 @@ import com.sana.cordeboheme.product_service.dto.request.CreateProductRequest;
 import com.sana.cordeboheme.product_service.dto.response.ProductResponse;
 import com.sana.cordeboheme.product_service.entity.Product;
 import com.sana.cordeboheme.product_service.exception.ResourceAlreadyExistsException;
+import com.sana.cordeboheme.product_service.exception.ResourceNotFoundException;
 import com.sana.cordeboheme.product_service.mapper.ProductMapper;
 import com.sana.cordeboheme.product_service.repository.ProductRepository;
 import com.sana.cordeboheme.product_service.service.ProductService;
 import java.util.List;
+import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -31,13 +33,19 @@ public class ProductServiceImpl implements ProductService {
   }
 
   @Override
-  public ProductResponse getProductById(Long Id) {
-    return null;
+  public Optional<Product> getProductById(Long Id) {
+    Optional<Product> savedProduct = productRepository.findById(Id);
+    if(savedProduct.isEmpty())
+    {
+      throw new ResourceNotFoundException("Product not found");
+    }
+    return savedProduct;
   }
 
   @Override
   public List<Product> getAllProduct() {
-    return null;
+    return productRepository.findAll();
+
   }
 
   @Override
