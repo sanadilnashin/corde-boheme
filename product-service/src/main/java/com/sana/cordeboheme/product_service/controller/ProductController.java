@@ -4,9 +4,7 @@ import com.sana.cordeboheme.product_service.dto.request.CreateProductRequest;
 import com.sana.cordeboheme.product_service.dto.response.ProductResponse;
 import com.sana.cordeboheme.product_service.entity.Product;
 import com.sana.cordeboheme.product_service.service.ProductService;
-
 import java.util.List;
-import java.util.Optional;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -24,11 +22,12 @@ public class ProductController {
   }
 
   @GetMapping(params = "id")
-  Optional<Product> getProductById(@RequestParam Long id) {
+  Product getProductById(@RequestParam Long id) {
     return productService.getProductById(id);
   }
+
   @GetMapping
-  List<Product> getProductById() {
+  List<Product> getProducts() {
     return productService.getAllProduct();
   }
 }

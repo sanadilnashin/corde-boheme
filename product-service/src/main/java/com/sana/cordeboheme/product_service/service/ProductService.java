@@ -4,12 +4,11 @@ import com.sana.cordeboheme.product_service.dto.request.CreateProductRequest;
 import com.sana.cordeboheme.product_service.dto.response.ProductResponse;
 import com.sana.cordeboheme.product_service.entity.Product;
 import java.util.List;
-import java.util.Optional;
 
 public interface ProductService {
   ProductResponse createProduct(CreateProductRequest request);
 
-  Optional<Product> getProductById(Long Id);
+  Product getProductById(Long Id);
 
   List<Product> getAllProduct();
 
