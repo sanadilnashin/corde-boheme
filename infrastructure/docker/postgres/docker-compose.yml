@@ -1,18 +1,18 @@
 version: '3.8'
 
 services:
-  product-db:
+  postgres:
     image: postgres:17
-    container_name: product-db
+    container_name: postgres
     restart: always
     environment:
-      POSTGRES_DB: product_db
-      POSTGRES_USER: product
-      POSTGRES_PASSWORD: product
+      POSTGRES_USER: Admin
+      POSTGRES_PASSWORD: Admin
     ports:
       - "5434:5432"
     volumes:
       - product_db_data:/var/lib/postgresql
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
     networks:
       - ecommerce-net
 
