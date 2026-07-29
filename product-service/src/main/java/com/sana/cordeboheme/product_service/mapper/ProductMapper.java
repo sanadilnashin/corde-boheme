@@ -1,12 +1,14 @@
 package com.sana.cordeboheme.product_service.mapper;
 
-import com.sana.cordeboheme.product_service.dto.request.createProductRequest;
+import com.sana.cordeboheme.product_service.dto.request.CreateProductRequest;
 import com.sana.cordeboheme.product_service.dto.response.ProductResponse;
 import com.sana.cordeboheme.product_service.entity.Product;
+import org.springframework.stereotype.Component;
 
+@Component
 public class ProductMapper {
 
-  Product toEntity(createProductRequest request) {
+  public Product toEntity(CreateProductRequest request) {
     return Product.builder()
         .description(request.description())
         .name(request.name())
@@ -15,7 +17,7 @@ public class ProductMapper {
         .build();
   }
 
-  ProductResponse toResponse(Product product) {
+  public ProductResponse toResponse(Product product) {
     return new ProductResponse(
         product.getId(),
         product.getName(),
