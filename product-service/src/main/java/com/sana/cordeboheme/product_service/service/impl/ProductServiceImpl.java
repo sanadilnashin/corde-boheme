@@ -3,7 +3,8 @@ package com.sana.cordeboheme.product_service.service.impl;
 import com.sana.cordeboheme.product_service.dto.request.CreateProductRequest;
 import com.sana.cordeboheme.product_service.dto.response.ProductResponse;
 import com.sana.cordeboheme.product_service.entity.Product;
-import com.sana.cordeboheme.product_service.exception.ResourceAlreadyExistsException;
+import com.sana.cordeboheme.product_service.exception.ProductAlreadyExistsException;
+import com.sana.cordeboheme.product_service.exception.ProductNotFoundException;
 import com.sana.cordeboheme.product_service.mapper.ProductMapper;
 import com.sana.cordeboheme.product_service.repository.ProductRepository;
 import com.sana.cordeboheme.product_service.service.ProductService;
@@ -23,7 +24,7 @@ public class ProductServiceImpl implements ProductService {
   @Override
   public ProductResponse createProduct(CreateProductRequest request) {
     if (productRepository.existsByName(request.name())) {
-      throw new ResourceAlreadyExistsException("Product already created");
+      throw new ProductAlreadyExistsException("Product already created");
     }
     Product product = productMapper.toEntity(request);
     Product savedProduct = productRepository.save(product);
@@ -31,13 +32,16 @@ public class ProductServiceImpl implements ProductService {
   }
 
   @Override
-  public ProductResponse getProductById(Long Id) {
-    return null;
+  public Product getProductById(Long Id) {
+
+    return productRepository
+        .findById(Id)
+        .orElseThrow(() -> new ProductNotFoundException("Product not found with id " + Id));
   }
 
   @Override
   public List<Product> getAllProduct() {
-    return null;
+    return productRepository.findAll();
   }
 
   @Override

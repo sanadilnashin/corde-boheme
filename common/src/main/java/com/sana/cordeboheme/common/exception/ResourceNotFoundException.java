@@ -1,4 +1,4 @@
-package com.sana.cordeboheme.product_service.exception;
+package com.sana.cordeboheme.common.exception;
 
 public class ResourceNotFoundException extends RuntimeException {
   public ResourceNotFoundException(String message) {
