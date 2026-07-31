@@ -56,7 +56,10 @@ public class ProductController {
 
   @GetMapping("/all")
   Page<ProductResponse> getAllProduct(
-      @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "0") int size) {
-    return productService.getAllProductByPage(page, size);
+      @RequestParam(defaultValue = "0") int page,
+      @RequestParam(defaultValue = "0") int size,
+      @RequestParam(defaultValue = "id") String sortBy,
+      @RequestParam(defaultValue = "desc") String direction) {
+    return productService.getAllProductByPage(page, size, sortBy, direction);
   }
 }

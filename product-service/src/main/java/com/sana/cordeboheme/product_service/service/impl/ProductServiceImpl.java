@@ -13,6 +13,7 @@ import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -71,8 +72,13 @@ public class ProductServiceImpl implements ProductService {
   }
 
   @Override
-  public Page<ProductResponse> getAllProductByPage(int page, int size) {
-    Pageable pageable = PageRequest.of(page, size);
+  public Page<ProductResponse> getAllProductByPage(
+      int page, int size, String sortBy, String direction) {
+    Sort sort =
+        direction.equalsIgnoreCase("desc")
+            ? Sort.by(sortBy).descending()
+            : Sort.by(sortBy).ascending();
+    Pageable pageable = PageRequest.of(page, size, sort);
     Page<Product> productList = productRepository.findAll(pageable);
     return productList.map(productMapper::toResponse);
   }
