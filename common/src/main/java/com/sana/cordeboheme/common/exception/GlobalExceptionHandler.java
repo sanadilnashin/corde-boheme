@@ -48,8 +48,7 @@ public class GlobalExceptionHandler {
 
     ex.getBindingResult()
         .getFieldErrors()
-        .forEach(
-            error -> errors.put(error.getField(), error.getDefaultMessage()));
+        .forEach(error -> errors.put(error.getField(), error.getDefaultMessage()));
 
     ValidationErrorResponse errorResponse =
         new ValidationErrorResponse(

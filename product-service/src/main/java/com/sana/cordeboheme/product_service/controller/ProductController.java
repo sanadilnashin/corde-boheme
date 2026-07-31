@@ -7,6 +7,7 @@ import com.sana.cordeboheme.product_service.service.ProductService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotEmpty;
 import java.util.List;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -51,5 +52,11 @@ public class ProductController {
   public ResponseEntity<Void> deleteProduct(@PathVariable Long id) {
     productService.deleteProduct(id);
     return ResponseEntity.noContent().build();
+  }
+
+  @GetMapping("/all")
+  Page<ProductResponse> getAllProduct(
+      @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "0") int size) {
+    return productService.getAllProductByPage(page, size);
   }
 }
