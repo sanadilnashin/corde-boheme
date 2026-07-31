@@ -8,6 +8,7 @@ import com.sana.cordeboheme.product_service.exception.ProductNotFoundException;
 import com.sana.cordeboheme.product_service.mapper.ProductMapper;
 import com.sana.cordeboheme.product_service.repository.ProductRepository;
 import com.sana.cordeboheme.product_service.service.ProductService;
+import java.util.ArrayList;
 import java.util.List;
 import org.springframework.stereotype.Service;
 
@@ -46,9 +47,39 @@ public class ProductServiceImpl implements ProductService {
 
   @Override
   public ProductResponse updateProduct(Long id, CreateProductRequest request) {
-    return null;
+    Product product = getProductById(id);
+    product.setDescription(request.description());
+    product.setName(request.name());
+    product.setPrice(request.price());
+    product.setQuantity(request.quantity());
+    return productMapper.toResponse(product);
   }
 
   @Override
-  public void deleteProduct(Long id) {}
+  public void deleteProduct(Long id) {
+    productRepository.deleteById(id);
+  }
+
+  @Override
+  public List<ProductResponse> createProducts(List<CreateProductRequest> request) {
+    List<Product> productList = listToEntity(request);
+    List<Product> productLists = productRepository.saveAll(productList);
+    return listToResponse(productLists);
+  }
+
+  private List<Product> listToEntity(List<CreateProductRequest> request) {
+    List<Product> productList = new java.util.ArrayList<>();
+    for (CreateProductRequest productRequest : request) {
+      productList.add(productMapper.toEntity(productRequest));
+    }
+    return productList;
+  }
+
+  private List<ProductResponse> listToResponse(List<Product> productLists) {
+    List<ProductResponse> productResponses = new ArrayList<>();
+    for (Product productRequest : productLists) {
+      productResponses.add(productMapper.toResponse(productRequest));
+    }
+    return productResponses;
+  }
 }

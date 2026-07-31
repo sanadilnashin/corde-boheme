@@ -25,14 +25,14 @@ public class GlobalExceptionHandler {
 
   @ExceptionHandler(ResourceAlreadyExistsException.class)
   ResponseEntity<ErrorResponse> handleResourceAlreadyExist(
-          ResourceAlreadyExistsException ex, HttpServletRequest request) {
+      ResourceAlreadyExistsException ex, HttpServletRequest request) {
     ErrorResponse errorResponse =
-            new ErrorResponse(
-                    LocalDateTime.now(),
-                    HttpStatus.CONFLICT.value(),
-                    HttpStatus.CONFLICT.getReasonPhrase(),
-                    ex.getMessage(),
-                    request.getRequestURI());
+        new ErrorResponse(
+            LocalDateTime.now(),
+            HttpStatus.CONFLICT.value(),
+            HttpStatus.CONFLICT.getReasonPhrase(),
+            ex.getMessage(),
+            request.getRequestURI());
 
     return ResponseEntity.status(HttpStatus.CONFLICT).body(errorResponse);
   }
