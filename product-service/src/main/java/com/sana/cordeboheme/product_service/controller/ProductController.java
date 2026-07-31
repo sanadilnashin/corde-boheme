@@ -4,6 +4,8 @@ import com.sana.cordeboheme.product_service.dto.request.CreateProductRequest;
 import com.sana.cordeboheme.product_service.dto.response.ProductResponse;
 import com.sana.cordeboheme.product_service.entity.Product;
 import com.sana.cordeboheme.product_service.service.ProductService;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotEmpty;
 import java.util.List;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,7 +20,7 @@ public class ProductController {
   }
 
   @PostMapping
-  ProductResponse createProduct(@RequestBody CreateProductRequest request) {
+  ProductResponse createProduct(@Valid @RequestBody CreateProductRequest request) {
     return productService.createProduct(request);
   }
 
@@ -33,12 +35,15 @@ public class ProductController {
   }
 
   @PostMapping("/allProduct")
-  List<ProductResponse> createProducts(@RequestBody List<CreateProductRequest> request) {
+  List<ProductResponse> createProducts(
+      @RequestBody @NotEmpty(message = "Product list cannot be empty")
+          List<@Valid CreateProductRequest> request) {
     return productService.createProducts(request);
   }
 
   @PutMapping("/{id}")
-  ProductResponse updateProduct(@PathVariable Long id, @RequestBody CreateProductRequest request) {
+  ProductResponse updateProduct(
+      @PathVariable Long id, @Valid @RequestBody CreateProductRequest request) {
     return productService.updateProduct(id, request);
   }
 
