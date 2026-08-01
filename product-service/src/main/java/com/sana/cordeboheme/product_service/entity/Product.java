@@ -1,5 +1,6 @@
 package com.sana.cordeboheme.product_service.entity;
 
+import com.sana.cordeboheme.common.config.BaseEntity;
 import jakarta.persistence.*;
 import java.math.BigDecimal;
 import lombok.*;
@@ -11,7 +12,7 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Product {
+public class Product extends BaseEntity {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;

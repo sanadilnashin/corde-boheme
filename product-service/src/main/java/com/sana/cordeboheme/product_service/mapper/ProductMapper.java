@@ -14,6 +14,7 @@ public class ProductMapper {
         .name(request.name())
         .quantity(request.quantity())
         .price(request.price())
+        .deleted(false)
         .build();
   }
 
