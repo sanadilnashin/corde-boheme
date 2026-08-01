@@ -1,6 +1,7 @@
 package com.sana.cordeboheme.product_service.service.impl;
 
 import com.sana.cordeboheme.product_service.dto.request.CreateProductRequest;
+import com.sana.cordeboheme.product_service.dto.request.ProductSearchRequest;
 import com.sana.cordeboheme.product_service.dto.response.ProductResponse;
 import com.sana.cordeboheme.product_service.entity.Product;
 import com.sana.cordeboheme.product_service.exception.ProductAlreadyExistsException;
@@ -8,12 +9,14 @@ import com.sana.cordeboheme.product_service.exception.ProductNotFoundException;
 import com.sana.cordeboheme.product_service.mapper.ProductMapper;
 import com.sana.cordeboheme.product_service.repository.ProductRepository;
 import com.sana.cordeboheme.product_service.service.ProductService;
+import com.sana.cordeboheme.product_service.specification.ProductSpecification;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -81,6 +84,43 @@ public class ProductServiceImpl implements ProductService {
     Pageable pageable = PageRequest.of(page, size, sort);
     Page<Product> productList = productRepository.findAll(pageable);
     return productList.map(productMapper::toResponse);
+  }
+
+  @Override
+  public Page<ProductResponse> productSearch(ProductSearchRequest request) {
+    // sorting logic default id
+    // paging logic
+    // filteration
+    Sort sort = Sort.by("id").ascending();
+    if (request.sort() != null && !request.sort().isBlank()) {
+
+      String[] sortParts = request.sort().split(",");
+
+      String field = sortParts[0];
+
+      Sort.Direction direction =
+          sortParts.length > 1 && sortParts[1].equalsIgnoreCase("desc")
+              ? Sort.Direction.DESC
+              : Sort.Direction.ASC;
+
+      sort = Sort.by(direction, field);
+    }
+    Pageable pageable =
+        PageRequest.of(
+            request.page() == null ? 0 : request.page(),
+            request.size() == null ? 10 : request.size(),
+            sort);
+    Specification<Product> specification = (root, query, cb) -> cb.conjunction();
+    if (request.name() != null && !request.name().isBlank()) {
+      specification = specification.and(ProductSpecification.hasName(request.name()));
+    }
+    if (request.maxPrice() != null) {
+      specification = specification.and(ProductSpecification.hasMaxPrice(request.maxPrice()));
+    }
+    if (request.minPrice() != null) {
+      specification = specification.and(ProductSpecification.hasMinPrice(request.minPrice()));
+    }
+    return productRepository.findAll(specification, pageable).map(productMapper::toResponse);
   }
 
   private List<Product> listToEntity(List<CreateProductRequest> request) {

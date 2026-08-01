@@ -1,6 +1,7 @@
 package com.sana.cordeboheme.product_service.controller;
 
 import com.sana.cordeboheme.product_service.dto.request.CreateProductRequest;
+import com.sana.cordeboheme.product_service.dto.request.ProductSearchRequest;
 import com.sana.cordeboheme.product_service.dto.response.ProductResponse;
 import com.sana.cordeboheme.product_service.entity.Product;
 import com.sana.cordeboheme.product_service.service.ProductService;
@@ -61,5 +62,10 @@ public class ProductController {
       @RequestParam(defaultValue = "id") String sortBy,
       @RequestParam(defaultValue = "desc") String direction) {
     return productService.getAllProductByPage(page, size, sortBy, direction);
+  }
+
+  @GetMapping("/search")
+  Page<ProductResponse> productSearch(ProductSearchRequest productSearchRequest) {
+    return productService.productSearch(productSearchRequest);
   }
 }
