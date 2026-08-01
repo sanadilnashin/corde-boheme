@@ -64,7 +64,9 @@ public class ProductServiceImpl implements ProductService {
 
   @Override
   public void deleteProduct(Long id) {
-    productRepository.deleteById(id);
+    Product product = getProductById(id);
+    product.setDeleted(true);
+    productRepository.save(product);
   }
 
   @Override
@@ -110,7 +112,7 @@ public class ProductServiceImpl implements ProductService {
             request.page() == null ? 0 : request.page(),
             request.size() == null ? 10 : request.size(),
             sort);
-    Specification<Product> specification = (root, query, cb) -> cb.conjunction();
+    Specification<Product> specification = ProductSpecification.isNotDeleted();
     if (request.name() != null && !request.name().isBlank()) {
       specification = specification.and(ProductSpecification.hasName(request.name()));
     }

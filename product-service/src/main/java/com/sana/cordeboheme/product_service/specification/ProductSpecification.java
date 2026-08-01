@@ -34,4 +34,8 @@ public class ProductSpecification {
     return ((root, query, criteriaBuilder) ->
         criteriaBuilder.greaterThanOrEqualTo(root.get("price"), price));
   }
+
+  public static Specification<Product> isNotDeleted() {
+    return ((root, query, criteriaBuilder) -> criteriaBuilder.isFalse(root.get("deleted")));
+  }
 }
