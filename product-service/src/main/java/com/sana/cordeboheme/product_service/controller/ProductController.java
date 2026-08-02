@@ -4,6 +4,7 @@ import com.sana.cordeboheme.product_service.dto.request.CreateProductRequest;
 import com.sana.cordeboheme.product_service.dto.response.ProductResponse;
 import com.sana.cordeboheme.product_service.entity.Product;
 import com.sana.cordeboheme.product_service.service.ProductService;
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotEmpty;
 import java.util.List;
@@ -20,6 +21,7 @@ public class ProductController {
     this.productService = productService;
   }
 
+  @Operation(summary = "Create Product", description = "Creates a new handmade product.")
   @PostMapping
   ProductResponse createProduct(@Valid @RequestBody CreateProductRequest request) {
     return productService.createProduct(request);
