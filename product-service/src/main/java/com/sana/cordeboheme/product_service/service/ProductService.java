@@ -1,6 +1,7 @@
 package com.sana.cordeboheme.product_service.service;
 
 import com.sana.cordeboheme.product_service.dto.request.CreateProductRequest;
+import com.sana.cordeboheme.product_service.dto.request.ProductSearchRequest;
 import com.sana.cordeboheme.product_service.dto.response.ProductResponse;
 import com.sana.cordeboheme.product_service.entity.Product;
 import java.util.List;
@@ -20,4 +21,6 @@ public interface ProductService {
   List<ProductResponse> createProducts(List<CreateProductRequest> request);
 
   Page<ProductResponse> getAllProductByPage(int page, int size, String sortBy, String direction);
+
+  Page<ProductResponse> productSearch(ProductSearchRequest productSearchRequest);
 }
