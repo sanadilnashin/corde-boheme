@@ -20,7 +20,6 @@ public class Product extends BaseEntity {
   private String name;
   private String description;
   private BigDecimal price;
-  private Integer quantity;
 
   @Column(nullable = false)
   private Boolean deleted = false;
