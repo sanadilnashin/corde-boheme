@@ -7,5 +7,5 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 public interface ProductRepository
     extends JpaRepository<Product, Long>, JpaSpecificationExecutor<Product> {
 
-  Boolean existsByName(String name);
+  boolean existsByNameIgnoreCaseAndDeletedFalse(String name);
 }
