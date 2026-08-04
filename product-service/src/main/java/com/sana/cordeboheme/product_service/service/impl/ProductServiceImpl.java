@@ -90,10 +90,10 @@ public class ProductServiceImpl implements ProductService {
 
   @Override
   public Page<ProductResponse> productSearch(ProductSearchRequest request) {
-    // sorting logic default id
-    // paging logic
-    // filteration
+
+    // Default sorting
     Sort sort = Sort.by("id").ascending();
+
     if (request.sort() != null && !request.sort().isBlank()) {
 
       String[] sortParts = request.sort().split(",");
@@ -107,21 +107,19 @@ public class ProductServiceImpl implements ProductService {
 
       sort = Sort.by(direction, field);
     }
+
     Pageable pageable =
         PageRequest.of(
             request.page() == null ? 0 : request.page(),
             request.size() == null ? 10 : request.size(),
             sort);
-    Specification<Product> specification = ProductSpecification.isNotDeleted();
-    if (request.name() != null && !request.name().isBlank()) {
-      specification = specification.and(ProductSpecification.hasName(request.name()));
-    }
-    if (request.maxPrice() != null) {
-      specification = specification.and(ProductSpecification.hasMaxPrice(request.maxPrice()));
-    }
-    if (request.minPrice() != null) {
-      specification = specification.and(ProductSpecification.hasMinPrice(request.minPrice()));
-    }
+
+    Specification<Product> specification =
+        Specification.where(ProductSpecification.isNotDeleted())
+            .and(ProductSpecification.hasName(request.name()))
+            .and(ProductSpecification.hasMinPrice(request.minPrice()))
+            .and(ProductSpecification.hasMaxPrice(request.maxPrice()));
+
     return productRepository.findAll(specification, pageable).map(productMapper::toResponse);
   }
 

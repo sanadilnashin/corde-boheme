@@ -16,26 +16,36 @@ public class ProductSpecification {
   // FROM product
   // WHERE LOWER(name) LIKE '%mac%'
   public static Specification<Product> hasName(String name) {
-    return ((root, query, criteriaBuilder) -> {
+    return (root, query, cb) -> {
       if (name == null || name.isBlank()) {
-        return criteriaBuilder.conjunction();
+        return null;
       }
-      return criteriaBuilder.like(
-          criteriaBuilder.lower(root.get("name")), "%" + name.toLowerCase() + "%");
-    });
+
+      return cb.like(cb.lower(root.get("name")), "%" + name.toLowerCase() + "%");
+    };
   }
 
-  public static Specification<Product> hasMaxPrice(BigDecimal price) {
-    return ((root, query, criteriaBuilder) ->
-        criteriaBuilder.lessThanOrEqualTo(root.get("price"), price));
+  public static Specification<Product> hasMaxPrice(BigDecimal maxPrice) {
+    return (root, query, cb) -> {
+      if (maxPrice == null) {
+        return null;
+      }
+
+      return cb.lessThanOrEqualTo(root.get("price"), maxPrice);
+    };
   }
 
-  public static Specification<Product> hasMinPrice(BigDecimal price) {
-    return ((root, query, criteriaBuilder) ->
-        criteriaBuilder.greaterThanOrEqualTo(root.get("price"), price));
+  public static Specification<Product> hasMinPrice(BigDecimal minPrice) {
+    return (root, query, cb) -> {
+      if (minPrice == null) {
+        return null;
+      }
+
+      return cb.greaterThanOrEqualTo(root.get("price"), minPrice);
+    };
   }
 
   public static Specification<Product> isNotDeleted() {
-    return ((root, query, criteriaBuilder) -> criteriaBuilder.isFalse(root.get("deleted")));
+    return (root, query, cb) -> cb.isFalse(root.get("deleted"));
   }
 }
