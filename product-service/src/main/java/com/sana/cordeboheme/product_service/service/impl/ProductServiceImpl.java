@@ -31,7 +31,7 @@ public class ProductServiceImpl implements ProductService {
 
   @Override
   public ProductResponse createProduct(CreateProductRequest request) {
-    if (productRepository.existsByName(request.name())) {
+    if (productRepository.existsByNameIgnoreCaseAndDeletedFalse(request.name())) {
       throw new ProductAlreadyExistsException("Product already created");
     }
     Product product = productMapper.toEntity(request);
