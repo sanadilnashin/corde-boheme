@@ -58,7 +58,6 @@ public class ProductServiceImpl implements ProductService {
     product.setDescription(request.description());
     product.setName(request.name());
     product.setPrice(request.price());
-    product.setQuantity(request.quantity());
     return productMapper.toResponse(product);
   }
 
