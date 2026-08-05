@@ -76,7 +76,7 @@ public class ProductServiceImpl implements ProductService {
   }
 
   @Override
-  public Page<ProductResponse> getAllProductByPage(
+  public List<ProductResponse> getAllProductByPage(
       int page, int size, String sortBy, String direction) {
     Sort sort =
         direction.equalsIgnoreCase("desc")
@@ -84,7 +84,7 @@ public class ProductServiceImpl implements ProductService {
             : Sort.by(sortBy).ascending();
     Pageable pageable = PageRequest.of(page, size, sort);
     Page<Product> productList = productRepository.findAll(pageable);
-    return productList.map(productMapper::toResponse);
+    return productList.map(productMapper::toResponse).getContent();
   }
 
   @Override
