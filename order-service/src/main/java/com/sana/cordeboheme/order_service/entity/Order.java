@@ -1,0 +1,45 @@
+package com.sana.cordeboheme.order_service.entity;
+
+import com.sana.cordeboheme.common.config.BaseEntity;
+import com.sana.cordeboheme.order_service.entity.enums.OrderStatus;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import java.math.BigDecimal;
+import java.util.List;
+import java.util.UUID;
+
+@Entity
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
+@Table(name = "Order")
+public class Order extends BaseEntity {
+    @Id
+    @GeneratedValue
+    private UUID orderId;
+
+    @Column(nullable = false)
+    private UUID customerId;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private OrderStatus orderStatus;
+
+    private BigDecimal totalAmount;
+
+    @Column(nullable = false)
+    private UUID shippingAddressId;
+
+    // A single order can have multiple items.
+// 'mappedBy = "order"' -> OrderItem controls the foreign key in the database.
+// 'cascade = CascadeType.ALL' -> Saving/deleting an Order automatically saves/deletes its items.
+// 'orphanRemoval = true' -> Removing an item from this list deletes it from the database.
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<OrderItem> items;
+
+}
