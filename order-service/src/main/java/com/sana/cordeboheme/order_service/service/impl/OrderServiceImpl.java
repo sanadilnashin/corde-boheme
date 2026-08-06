@@ -1,6 +1,6 @@
 package com.sana.cordeboheme.order_service.service.impl;
 
-import com.sana.cordeboheme.order_service.dto.OrderRequest;
+import com.sana.cordeboheme.order_service.dto.request.OrderRequest;
 import com.sana.cordeboheme.order_service.entity.Order;
 import com.sana.cordeboheme.order_service.entity.enums.OrderStatus;
 import com.sana.cordeboheme.order_service.service.OrderService;
