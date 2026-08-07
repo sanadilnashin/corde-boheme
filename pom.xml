@@ -28,6 +28,7 @@
     <module>discovery-server</module>
     <module>gateway-service</module>
     <module>product-service</module>
+      <module>inventory-service</module>
   </modules>
 
   <properties>
