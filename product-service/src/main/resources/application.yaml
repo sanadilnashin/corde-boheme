@@ -4,7 +4,9 @@ server:
 spring:
   application:
     name: product-service
-
+#can be removed later and added to config server and for local it can be passed from environment variable
+  profiles:
+    active: dev
   config:
     import: optional:configserver:http://localhost:8888
   datasource:

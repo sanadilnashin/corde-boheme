@@ -20,7 +20,7 @@ public interface ProductService {
 
   List<ProductResponse> createProducts(List<CreateProductRequest> request);
 
-  Page<ProductResponse> getAllProductByPage(int page, int size, String sortBy, String direction);
+  List<ProductResponse> getAllProductByPage(int page, int size, String sortBy, String direction);
 
   Page<ProductResponse> productSearch(ProductSearchRequest productSearchRequest);
 }
