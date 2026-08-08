@@ -29,3 +29,6 @@ management:
     web:
       exposure:
         include: "*"
+product:
+  service:
+    url: https://localhost:8081
