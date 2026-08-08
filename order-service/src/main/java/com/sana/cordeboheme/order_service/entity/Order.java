@@ -14,7 +14,7 @@ import lombok.*;
 @Getter
 @Setter
 @Builder
-@Table(name = "Order")
+@Table(name = "Orders")
 public class Order extends BaseEntity {
   @Id @GeneratedValue private UUID orderId;
 

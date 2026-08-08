@@ -22,6 +22,6 @@ public class OpenApiConfig_dev {
                 .version("v1.0")
                 .contact(new Contact().name("Sana Dilnashin").email("sanadilnashin@example.com")))
         // Multiple servers: dropdown in Swagger UI
-        .servers(List.of(new Server().url("http://localhost:8080").description("Local Dev")));
+        .servers(List.of(new Server().url("http://localhost:8081").description("Local Dev")));
   }
 }
