@@ -2,10 +2,7 @@ package com.sana.cordeboheme.order_service.entity;
 
 import com.sana.cordeboheme.common.config.BaseEntity;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.math.BigDecimal;
 import java.util.UUID;
@@ -15,6 +12,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @Getter
 @Setter
+@Builder
 @Table(name = "Order_Item")
 public class OrderItem extends BaseEntity {
     @Id
