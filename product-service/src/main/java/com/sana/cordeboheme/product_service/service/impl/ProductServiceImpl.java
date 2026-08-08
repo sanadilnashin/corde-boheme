@@ -12,6 +12,8 @@ import com.sana.cordeboheme.product_service.service.ProductService;
 import com.sana.cordeboheme.product_service.specification.ProductSpecification;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -40,7 +42,7 @@ public class ProductServiceImpl implements ProductService {
   }
 
   @Override
-  public Product getProductById(Long Id) {
+  public Product getProductById(UUID Id) {
 
     return productRepository
         .findById(Id)
@@ -53,7 +55,7 @@ public class ProductServiceImpl implements ProductService {
   }
 
   @Override
-  public ProductResponse updateProduct(Long id, CreateProductRequest request) {
+  public ProductResponse updateProduct(UUID id, CreateProductRequest request) {
     Product product = getProductById(id);
     product.setDescription(request.description());
     product.setName(request.name());
@@ -62,7 +64,7 @@ public class ProductServiceImpl implements ProductService {
   }
 
   @Override
-  public void deleteProduct(Long id) {
+  public void deleteProduct(UUID id) {
     Product product = getProductById(id);
     product.setDeleted(true);
     productRepository.save(product);

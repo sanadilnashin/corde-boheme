@@ -5,18 +5,20 @@ import com.sana.cordeboheme.product_service.dto.request.ProductSearchRequest;
 import com.sana.cordeboheme.product_service.dto.response.ProductResponse;
 import com.sana.cordeboheme.product_service.entity.Product;
 import java.util.List;
+import java.util.UUID;
+
 import org.springframework.data.domain.Page;
 
 public interface ProductService {
   ProductResponse createProduct(CreateProductRequest request);
 
-  Product getProductById(Long Id);
+  Product getProductById(UUID Id);
 
   List<Product> getAllProduct();
 
-  ProductResponse updateProduct(Long id, CreateProductRequest request);
+  ProductResponse updateProduct(UUID id, CreateProductRequest request);
 
-  void deleteProduct(Long id);
+  void deleteProduct(UUID id);
 
   List<ProductResponse> createProducts(List<CreateProductRequest> request);
 
