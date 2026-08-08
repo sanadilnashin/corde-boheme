@@ -16,8 +16,8 @@ import lombok.*;
 @Builder
 @Table(name = "Orders")
 public class Order extends BaseEntity {
-  @Id @GeneratedValue private UUID orderId;
-
+  @Id
+  @GeneratedValue private UUID orderId;
   @Column(nullable = false)
   private UUID customerId;
 

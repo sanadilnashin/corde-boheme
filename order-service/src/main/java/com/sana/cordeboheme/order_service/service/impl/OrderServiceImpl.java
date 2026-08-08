@@ -15,13 +15,15 @@ import com.sana.cordeboheme.order_service.util.PriceCalculator;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.UUID;
+
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 @Service
 public class OrderServiceImpl implements OrderService {
 
-  private OrderRepository orderRepository;
-  private FeignClient feignClient;
+  private final OrderRepository orderRepository;
+  private final FeignClient feignClient;
 
   public OrderServiceImpl(FeignClient feignClient, OrderRepository orderRepository) {
     this.feignClient = feignClient;
@@ -29,6 +31,7 @@ public class OrderServiceImpl implements OrderService {
   }
 
   @Override
+  @Transactional
   public OrderResponse createOrder(OrderRequest orderRequest) {
 
     Order order = OrderMapper.toOrder(orderRequest);
@@ -38,8 +41,8 @@ public class OrderServiceImpl implements OrderService {
             .map(
                 item -> {
                   ProductResponse product =
-                      feignClient.getProductById(
-                          item.getProductId().getMostSignificantBits() & Long.MAX_VALUE);
+                      feignClient.getProductById(item.getProductId());
+                  item.setUnitPrice(product.price());
                   item.setSubtotal(
                       PriceCalculator.calculateSubTotal(item.getQuantity(), product.price()));
                   return item;
@@ -68,6 +71,7 @@ public class OrderServiceImpl implements OrderService {
   }
 
   @Override
+  @Transactional
   public OrderResponse getOrderById(UUID orderId) {
     return orderRepository
         .findById(orderId)
@@ -76,6 +80,7 @@ public class OrderServiceImpl implements OrderService {
   }
 
   @Override
+  @Transactional
   public List<OrderResponse> getOrderByCustomerId(UUID customerId) {
     List<Order> orders = orderRepository.findByCustomerId(customerId);
     if (orders == null) {

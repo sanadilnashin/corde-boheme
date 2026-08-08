@@ -14,7 +14,10 @@ import lombok.*;
 @Builder
 @Table(name = "Order_Item")
 public class OrderItem extends BaseEntity {
-  @Id private UUID orderItemId;
+  @Id
+  @GeneratedValue
+  @Column(nullable = false)
+  private UUID orderItemId;
 
   // order item can not exist without an order
   @ManyToOne
