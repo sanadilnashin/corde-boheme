@@ -11,6 +11,8 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotEmpty;
 import java.util.List;
+import java.util.UUID;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -45,7 +47,7 @@ public class ProductController {
     @ApiResponse(responseCode = "401", description = "Unauthorized"),
     @ApiResponse(responseCode = "404", description = "Product not found")
   })
-  Product getProductById(@RequestParam Long id) {
+  Product getProductById(@RequestParam UUID id) {
     return productService.getProductById(id);
   }
 
@@ -88,7 +90,7 @@ public class ProductController {
     @ApiResponse(responseCode = "404", description = "Product not found")
   })
   ProductResponse updateProduct(
-      @PathVariable Long id, @Valid @RequestBody CreateProductRequest request) {
+      @PathVariable UUID id, @Valid @RequestBody CreateProductRequest request) {
     return productService.updateProduct(id, request);
   }
 
@@ -101,7 +103,7 @@ public class ProductController {
     @ApiResponse(responseCode = "403", description = "Forbidden"),
     @ApiResponse(responseCode = "404", description = "Product not found")
   })
-  public ResponseEntity<Void> deleteProduct(@PathVariable Long id) {
+  public ResponseEntity<Void> deleteProduct(@PathVariable UUID id) {
     productService.deleteProduct(id);
     return ResponseEntity.noContent().build();
   }

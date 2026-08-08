@@ -3,6 +3,8 @@ package com.sana.cordeboheme.product_service.entity;
 import com.sana.cordeboheme.common.config.BaseEntity;
 import jakarta.persistence.*;
 import java.math.BigDecimal;
+import java.util.UUID;
+
 import lombok.*;
 
 @Entity
@@ -14,8 +16,8 @@ import lombok.*;
 @Builder
 public class Product extends BaseEntity {
   @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long id;
+  @GeneratedValue
+  private UUID id;
 
   private String name;
   private String description;
