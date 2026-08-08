@@ -4,6 +4,7 @@ import com.sana.cordeboheme.product_service.dto.request.CreateProductRequest;
 import com.sana.cordeboheme.product_service.dto.request.ProductSearchRequest;
 import com.sana.cordeboheme.product_service.dto.response.ProductResponse;
 import com.sana.cordeboheme.product_service.entity.Product;
+import com.sana.cordeboheme.product_service.event.ProductEventPublisher;
 import com.sana.cordeboheme.product_service.exception.ProductAlreadyExistsException;
 import com.sana.cordeboheme.product_service.exception.ProductNotFoundException;
 import com.sana.cordeboheme.product_service.mapper.ProductMapper;
@@ -25,10 +26,15 @@ import org.springframework.stereotype.Service;
 public class ProductServiceImpl implements ProductService {
   private final ProductRepository productRepository;
   private final ProductMapper productMapper;
+  private final ProductEventPublisher productEventPublisher;
 
-  public ProductServiceImpl(ProductRepository productRepository, ProductMapper productMapper) {
+  public ProductServiceImpl(
+      ProductRepository productRepository,
+      ProductMapper productMapper,
+      ProductEventPublisher productEventPublisher) {
     this.productRepository = productRepository;
     this.productMapper = productMapper;
+    this.productEventPublisher = productEventPublisher;
   }
 
   @Override
@@ -38,6 +44,7 @@ public class ProductServiceImpl implements ProductService {
     }
     Product product = productMapper.toEntity(request);
     Product savedProduct = productRepository.save(product);
+    productEventPublisher.publishProductCreated(savedProduct.getId());
     return productMapper.toResponse(savedProduct);
   }
 
