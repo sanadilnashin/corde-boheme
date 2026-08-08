@@ -1,20 +1,20 @@
 package com.sana.cordeboheme.order_service.service;
 
 import com.sana.cordeboheme.order_service.dto.request.OrderRequest;
-import com.sana.cordeboheme.order_service.entity.Order;
+import com.sana.cordeboheme.order_service.dto.response.OrderResponse;
 import com.sana.cordeboheme.order_service.entity.enums.OrderStatus;
-
+import java.util.List;
 import java.util.UUID;
 
 public interface OrderService {
 
-    public Order createOrder(OrderRequest orderRequest);
+  OrderResponse createOrder(OrderRequest orderRequest);
 
-    public  Order updateOrderStatus(UUID orderId, OrderStatus newStatus);
+  Boolean updateOrderStatus(UUID orderId, OrderStatus newStatus);
 
-    public Order getOrderById(UUID orderId);
+  OrderResponse getOrderById(UUID orderId);
 
-    public  Order getOrderByCustomerId(UUID customerId);
+  List<OrderResponse> getOrderByCustomerId(UUID customerId);
 
-
+  void deleteOrderByOrderId(UUID orderId);
 }

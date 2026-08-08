@@ -1,29 +1,37 @@
 package com.sana.cordeboheme.order_service.controller;
 
 import com.sana.cordeboheme.order_service.dto.request.OrderRequest;
-import com.sana.cordeboheme.order_service.entity.Order;
+import com.sana.cordeboheme.order_service.dto.response.OrderResponse;
 import com.sana.cordeboheme.order_service.service.OrderService;
 import jakarta.validation.Valid;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import java.util.List;
+import java.util.UUID;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/order")
 public class OrderController {
 
-    private final OrderService orderService;
+  private final OrderService orderService;
 
-    public OrderController(OrderService orderService) {
-        this.orderService = orderService;
-    }
+  public OrderController(OrderService orderService) {
+    this.orderService = orderService;
+  }
 
-    @PostMapping
-    public Order createOrder(@RequestBody @Valid OrderRequest orderRequest) {
+  @PostMapping
+  public OrderResponse createOrder(@RequestBody @Valid OrderRequest orderRequest) {
 
-        Order order = orderService.createOrder(orderRequest);
-        return order;
+    OrderResponse order = orderService.createOrder(orderRequest);
+    return order;
+  }
 
-    }
+  @GetMapping
+  public OrderResponse getOrderById(@RequestParam UUID id) {
+    return orderService.getOrderById(id);
+  }
+
+  @GetMapping("/customer")
+  public List<OrderResponse> getOrderByCustomerId(@RequestParam UUID id) {
+    return orderService.getOrderByCustomerId(id);
+  }
 }
