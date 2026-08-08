@@ -5,9 +5,11 @@ import com.sana.cordeboheme.order_service.dto.response.OrderItemResponse;
 import com.sana.cordeboheme.order_service.dto.response.OrderResponse;
 import com.sana.cordeboheme.order_service.entity.Order;
 import com.sana.cordeboheme.order_service.entity.OrderItem;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+@Component
 public class OrderMapper {
 
     public static Order toOrder(OrderRequest orderRequest) {
