@@ -7,7 +7,7 @@ import com.sana.cordeboheme.order_service.dto.response.OrderResponse;
 import com.sana.cordeboheme.order_service.entity.Order;
 import com.sana.cordeboheme.order_service.entity.OrderItem;
 import com.sana.cordeboheme.order_service.entity.enums.OrderStatus;
-import com.sana.cordeboheme.order_service.exception.OrderNotFountException;
+import com.sana.cordeboheme.order_service.exception.OrderNotFoundException;
 import com.sana.cordeboheme.order_service.mapper.OrderMapper;
 import com.sana.cordeboheme.order_service.repository.OrderRepository;
 import com.sana.cordeboheme.order_service.service.OrderService;
@@ -61,7 +61,7 @@ public class OrderServiceImpl implements OrderService {
     Order order =
         orderRepository
             .findById(orderId)
-            .orElseThrow(() -> new OrderNotFountException("Order not found with id" + orderId));
+            .orElseThrow(() -> new OrderNotFoundException("Order not found with id" + orderId));
     order.setOrderStatus(newStatus);
     orderRepository.save(order);
     return true;
@@ -72,14 +72,14 @@ public class OrderServiceImpl implements OrderService {
     return orderRepository
         .findById(orderId)
         .map(OrderMapper::toOrderResponse)
-        .orElseThrow(() -> new OrderNotFountException("Order not foun with id" + orderId));
+        .orElseThrow(() -> new OrderNotFoundException("Order not foun with id" + orderId));
   }
 
   @Override
   public List<OrderResponse> getOrderByCustomerId(UUID customerId) {
     List<Order> orders = orderRepository.findByCustomerId(customerId);
     if (orders == null) {
-      throw new OrderNotFountException("order not found by customer id" + customerId);
+      throw new OrderNotFoundException("order not found by customer id" + customerId);
     }
     return orders.stream().map(OrderMapper::toOrderResponse).toList();
     // return OrderMapper.toOrderResponse(order);
@@ -90,7 +90,7 @@ public class OrderServiceImpl implements OrderService {
     orderRepository
         .findById(orderId)
         .orElseThrow(
-            () -> new OrderNotFountException("order not founf with id to delete" + orderId));
+            () -> new OrderNotFoundException("order not founf with id to delete" + orderId));
     orderRepository.deleteById(orderId);
   }
 }
