@@ -4,7 +4,6 @@ import com.sana.cordeboheme.common.config.BaseEntity;
 import jakarta.persistence.*;
 import java.math.BigDecimal;
 import java.util.UUID;
-
 import lombok.*;
 
 @Entity
@@ -15,9 +14,10 @@ import lombok.*;
 @NoArgsConstructor
 @Builder
 public class Product extends BaseEntity {
-  @Id
-  @GeneratedValue
-  private UUID id;
+  @Id @GeneratedValue private UUID id;
+
+  @Column(nullable = false, unique = true, length = 50)
+  private String sku;
 
   private String name;
   private String description;

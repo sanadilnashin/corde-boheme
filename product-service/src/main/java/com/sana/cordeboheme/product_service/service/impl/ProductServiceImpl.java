@@ -14,7 +14,6 @@ import com.sana.cordeboheme.product_service.specification.ProductSpecification;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -44,7 +43,7 @@ public class ProductServiceImpl implements ProductService {
     }
     Product product = productMapper.toEntity(request);
     Product savedProduct = productRepository.save(product);
-    productEventPublisher.publishProductCreated(savedProduct.getId());
+    productEventPublisher.publishProductCreated(savedProduct.getId(), savedProduct.getSku());
     return productMapper.toResponse(savedProduct);
   }
 

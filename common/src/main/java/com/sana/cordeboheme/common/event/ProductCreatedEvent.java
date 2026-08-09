@@ -1,3 +1,5 @@
 package com.sana.cordeboheme.common.event;
 
-public record ProductCreatedEvent(Long productId) {}
+import java.util.UUID;
+
+public record ProductCreatedEvent(UUID productId, String sku) {}

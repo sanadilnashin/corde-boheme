@@ -1,6 +1,7 @@
 package com.sana.cordeboheme.product_service.event;
 
 import com.sana.cordeboheme.common.event.ProductCreatedEvent;
+import java.util.UUID;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
 
@@ -16,9 +17,9 @@ public class ProductEventPublisher {
   }
 
   // public event
-  public void publishProductCreated(Long productId) {
+  public void publishProductCreated(UUID productId, String sku) {
     // create event
-    ProductCreatedEvent productCreatedEvent = new ProductCreatedEvent(productId);
+    ProductCreatedEvent productCreatedEvent = new ProductCreatedEvent(productId, sku);
     kafkaTemplate.send(PRODUCT_CREATED_TOPIC, productId.toString(), productCreatedEvent);
   }
 }
