@@ -20,6 +20,7 @@ public class OrderItemMapper {
                 .orderItemId(orderItem.getOrderItemId())
                 .productId(orderItem.getProductId())
                 .unitPrice(orderItem.getUnitPrice())
+                .quantity(orderItem.getQuantity())
                 .subTotal(orderItem.getSubtotal())
                 .build();
     }
