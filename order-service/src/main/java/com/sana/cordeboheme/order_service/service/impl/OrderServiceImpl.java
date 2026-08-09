@@ -1,33 +1,101 @@
 package com.sana.cordeboheme.order_service.service.impl;
 
+import com.sana.cordeboheme.order_service.client.FeignClient;
+import com.sana.cordeboheme.order_service.client.dto.ProductResponse;
 import com.sana.cordeboheme.order_service.dto.request.OrderRequest;
+import com.sana.cordeboheme.order_service.dto.response.OrderResponse;
 import com.sana.cordeboheme.order_service.entity.Order;
+import com.sana.cordeboheme.order_service.entity.OrderItem;
 import com.sana.cordeboheme.order_service.entity.enums.OrderStatus;
+import com.sana.cordeboheme.order_service.exception.OrderNotFoundException;
+import com.sana.cordeboheme.order_service.mapper.OrderMapper;
+import com.sana.cordeboheme.order_service.repository.OrderRepository;
 import com.sana.cordeboheme.order_service.service.OrderService;
-import org.springframework.stereotype.Service;
-
+import com.sana.cordeboheme.order_service.util.PriceCalculator;
+import java.math.BigDecimal;
+import java.util.List;
 import java.util.UUID;
+
+import jakarta.transaction.Transactional;
+import org.springframework.stereotype.Service;
 
 @Service
 public class OrderServiceImpl implements OrderService {
 
-    @Override
-    public Order createOrder(OrderRequest orderRequest) {
-        return null;
-    }
+  private final OrderRepository orderRepository;
+  private final FeignClient feignClient;
 
-    @Override
-    public Order updateOrderStatus(UUID orderId, OrderStatus newStatus) {
-        return null;
-    }
+  public OrderServiceImpl(FeignClient feignClient, OrderRepository orderRepository) {
+    this.feignClient = feignClient;
+    this.orderRepository = orderRepository;
+  }
 
-    @Override
-    public Order getOrderById(UUID orderId) {
-        return null;
-    }
+  @Override
+  @Transactional
+  public OrderResponse createOrder(OrderRequest orderRequest) {
 
-    @Override
-    public Order getOrderByCustomerId(UUID customerId) {
-        return null;
+    Order order = OrderMapper.toOrder(orderRequest);
+
+    List<OrderItem> orderItems =
+        order.getItems().stream()
+            .map(
+                item -> {
+                  ProductResponse product =
+                      feignClient.getProductById(item.getProductId());
+                  item.setUnitPrice(product.price());
+                  item.setSubtotal(
+                      PriceCalculator.calculateSubTotal(item.getQuantity(), product.price()));
+                  return item;
+                })
+            .toList();
+
+    BigDecimal totalAmount = PriceCalculator.calculateTotalAmount(orderItems);
+    order.setOrderStatus(OrderStatus.PENDING);
+    order.setTotalAmount(totalAmount);
+    order.setItems(orderItems);
+
+    Order savedOrder = orderRepository.save(order);
+    return OrderMapper.toOrderResponse(savedOrder);
+  }
+
+  @Override
+  public Boolean updateOrderStatus(UUID orderId, OrderStatus newStatus) {
+
+    Order order =
+        orderRepository
+            .findById(orderId)
+            .orElseThrow(() -> new OrderNotFoundException("Order not found with id" + orderId));
+    order.setOrderStatus(newStatus);
+    orderRepository.save(order);
+    return true;
+  }
+
+  @Override
+  @Transactional
+  public OrderResponse getOrderById(UUID orderId) {
+    return orderRepository
+        .findById(orderId)
+        .map(OrderMapper::toOrderResponse)
+        .orElseThrow(() -> new OrderNotFoundException("Order not foun with id" + orderId));
+  }
+
+  @Override
+  @Transactional
+  public List<OrderResponse> getOrderByCustomerId(UUID customerId) {
+    List<Order> orders = orderRepository.findByCustomerId(customerId);
+    if (orders == null) {
+      throw new OrderNotFoundException("order not found by customer id" + customerId);
     }
+    return orders.stream().map(OrderMapper::toOrderResponse).toList();
+    // return OrderMapper.toOrderResponse(order);
+  }
+
+  @Override
+  public void deleteOrderByOrderId(UUID orderId) {
+    orderRepository
+        .findById(orderId)
+        .orElseThrow(
+            () -> new OrderNotFoundException("order not founf with id to delete" + orderId));
+    orderRepository.deleteById(orderId);
+  }
 }
