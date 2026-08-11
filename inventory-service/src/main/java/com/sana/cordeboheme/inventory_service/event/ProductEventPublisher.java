@@ -1,8 +1,9 @@
-package com.sana.cordeboheme.product_service.event;
+package com.sana.cordeboheme.inventory_service.event;
 
-import java.util.UUID;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
+
+import java.util.UUID;
 
 @Component
 public class ProductEventPublisher {

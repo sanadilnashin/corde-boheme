@@ -1,6 +1,6 @@
 package com.sana.cordeboheme.product_service.config;
 
-import com.sana.cordeboheme.common.event.ProductCreatedEvent;
+import com.sana.cordeboheme.product_service.event.ProductCreatedEvent;
 import java.util.HashMap;
 import java.util.Map;
 import org.apache.kafka.clients.producer.ProducerConfig;

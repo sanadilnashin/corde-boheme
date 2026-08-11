@@ -1,4 +1,4 @@
-package com.sana.cordeboheme.common.event;
+package com.sana.cordeboheme.inventory_service.event;
 
 import java.util.UUID;
 
