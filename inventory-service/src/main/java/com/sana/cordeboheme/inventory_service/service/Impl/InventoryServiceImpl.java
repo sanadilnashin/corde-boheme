@@ -11,6 +11,8 @@ import com.sana.cordeboheme.inventory_service.repository.InventoryRepository;
 import com.sana.cordeboheme.inventory_service.service.InventoryService;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
+
 @Service
 public class InventoryServiceImpl implements InventoryService {
   private final InventoryRepository inventoryRepository;
@@ -33,7 +35,7 @@ public class InventoryServiceImpl implements InventoryService {
   }
 
   @Override
-  public InventoryResponse updateInventory(Long productId, UpdateInventoryRequest request) {
+public InventoryResponse updateInventory(UUID productId, UpdateInventoryRequest request) {
 
     Inventory inventory = getInventoryByProductId(productId);
 
@@ -44,7 +46,7 @@ public class InventoryServiceImpl implements InventoryService {
   }
 
   @Override
-  public Inventory getInventoryByProductId(Long productId) {
+  public Inventory getInventoryByProductId(UUID productId) {
     return inventoryRepository
         .findByProductIdAndDeletedFalse(productId)
         .orElseThrow(
@@ -54,7 +56,7 @@ public class InventoryServiceImpl implements InventoryService {
   }
 
   @Override
-  public void deleteInventory(Long id) {
+  public void deleteInventory(UUID id) {
     Inventory inventory = getInventoryByProductId(id);
     inventory.setDeleted(true);
     inventoryRepository.save(inventory);

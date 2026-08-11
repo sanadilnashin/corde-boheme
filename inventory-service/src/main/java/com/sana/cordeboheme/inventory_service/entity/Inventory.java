@@ -4,6 +4,8 @@ import com.sana.cordeboheme.common.config.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.UUID;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -12,16 +14,18 @@ import lombok.*;
 @Entity
 @Table(name = "inventory")
 public class Inventory extends BaseEntity {
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(nullable = false, updatable = false)
+    private UUID id;
 
-  private Long productId;
+    @Column(nullable = false,updatable = false)
+    private UUID productId;
 
-  private Integer availableQuantity;
+    private Integer availableQuantity;
 
-  private Integer reservedQuantity;
+    private Integer reservedQuantity;
 
-  @Column(nullable = false)
-  private Boolean deleted = false;
+    @Column(nullable = false)
+    private Boolean deleted = false;
 }

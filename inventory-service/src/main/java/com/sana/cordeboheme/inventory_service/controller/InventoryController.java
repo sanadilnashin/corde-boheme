@@ -9,6 +9,8 @@ import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.UUID;
+
 @RestController
 @RequestMapping("/api/v1/inventory")
 public class InventoryController {
@@ -25,12 +27,12 @@ public class InventoryController {
 
   @PutMapping("/{id}")
   InventoryResponse updateInventory(
-      @PathVariable Long id, @Valid @RequestBody UpdateInventoryRequest request) {
+      @PathVariable UUID id, @Valid @RequestBody UpdateInventoryRequest request) {
     return inventoryService.updateInventory(id, request);
   }
 
   @DeleteMapping("/{id}")
-  public ResponseEntity<Void> deleteInventory(@PathVariable Long id) {
+  public ResponseEntity<Void> deleteInventory(@PathVariable UUID id) {
     inventoryService.deleteInventory(id);
     return ResponseEntity.noContent().build();
   }
