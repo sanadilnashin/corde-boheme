@@ -6,7 +6,6 @@ import com.sana.cordeboheme.product_service.dto.response.ProductResponse;
 import com.sana.cordeboheme.product_service.entity.Product;
 import java.util.List;
 import java.util.UUID;
-
 import org.springframework.data.domain.Page;
 
 public interface ProductService {

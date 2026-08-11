@@ -13,12 +13,17 @@ public class ProductMapper {
         .description(request.description())
         .name(request.name())
         .price(request.price())
+        .sku(request.sku())
         .deleted(false)
         .build();
   }
 
   public ProductResponse toResponse(Product product) {
     return new ProductResponse(
-        product.getId(), product.getName(), product.getDescription(), product.getPrice());
+        product.getId(),
+        product.getSku(),
+        product.getName(),
+        product.getDescription(),
+        product.getPrice());
   }
 }
